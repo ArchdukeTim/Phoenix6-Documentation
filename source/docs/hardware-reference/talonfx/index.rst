@@ -50,7 +50,7 @@ Utilizing your TalonFX
 Motor Orientation
 -----------------
 
-Talon FX supports Clockwise and Counter Clockwise inverts. Inverts are determined from the perspective of looking at the face of the motor.
+Talon FX supports Clockwise and Counter-Clockwise inverts. Inverts are determined from the perspective of looking at the face of the motor. The default inversion is Counter-Clockwise Positive.
 
    .. grid:: 2
 
@@ -59,10 +59,53 @@ Talon FX supports Clockwise and Counter Clockwise inverts. Inverts are determine
          .. image:: images/clockwise.png
             :alt: Clockwise can be found by tracing the motor mount holes from right to left
 
-      .. grid-item-card:: Counter Clockwise
+      .. grid-item-card:: Counter-Clockwise
 
          .. image:: images/counter-clockwise.png
             :alt: Counter Clockwise can be found by tracing the motor mount holes from left to right
+
+Inversion can be set by calling the `setInverted` method (`Java <https://api.ctr-electronics.com/phoenix6/release/java/com/ctre/phoenix6/hardware/TalonFX.html#setInverted(boolean)>`__, `C++ <https://api.ctr-electronics.com/phoenix6/release/cpp/classctre_1_1phoenix6_1_1hardware_1_1_talon_f_x.html#a13c4ddd77bfcfc80c831b60ae37d0b53>`__) or by or using the Phoenix 6 :ref:`configuration API <docs/api-reference/api-usage/configuration:applying configs>`.
+
+.. tab-set::
+
+   .. tab-item:: Java
+      :sync: Java
+
+      .. code-block:: java
+         // Set inversion to Clockwise Positive
+         m_talonFX.setInverted(true)
+         
+         // Alternatively, use the Phoenix 6 Configuration API
+         var talonFXConfigurator = m_talonFX.getConfigurator();
+         var outputConfigs = new MotorOutputConfigs();
+         outputConfigs.Inverted = InvertedValue.Clockwise_Positive;
+
+         talonFXConfigurator.apply(outputConfigs);
+
+   .. tab-item:: C++
+      :sync: C++
+
+      .. code-block:: c++
+         // Set inversion to Clockwise Positive
+         m_talonFX.SetInverted(true);
+
+         // Alternatively, use the Phoenix 6 Configuration API
+         auto& talonFXConfigurator = m_talonFX.GetConfigurator();
+         configs::MotorOutputConfigs outputConfigs{};
+         outputConfigs.Inverted = signals::InvertedValue::Clockwise_Positive;
+
+         talonFXConfigurator.Apply(outputConfigs);
+
+   .. tab-item:: Python
+      :sync: python
+
+      .. code-block:: python
+         # Use the Phoenix 6 Configuration API
+         talonfx_configurator = self.talonfx.configurator
+         output_configs = configs.MotorOutputConfigs()
+         output_configs.inverted = InvertedValue.CLOCKWISE_POSITIVE
+
+         talonfx_configurator.apply(output_configs)
 
 Actuator Limits
 ---------------
